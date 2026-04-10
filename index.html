@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ezi Wash | Laundry & Dry Cleaning</title>
+    <meta name="description" content="Professional laundry, dry cleaning, and tailoring services. Ezi Wash — making laundry easy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="logo.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green-dark: #1B5E20;
+            --green-mid: #2E7D32;
+            --green-accent: #4CAF50;
+            --green-light: #A5D6A7;
+            --green-pale: #C5E1A5;
+            --green-bg: #E8F5E9;
+            --lime-bubble: #C8DC82;
+            --white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-muted: #555;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(27, 94, 32, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 10px 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 50px;
+            transition: height 0.3s ease;
+        }
+
+        .navbar.scrolled .nav-logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--green-pale);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--white) !important;
+            color: var(--green-dark) !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--green-pale) !important;
+            transform: scale(1.05);
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .burger span {
+            width: 28px;
+            height: 3px;
+            background: var(--white);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .burger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 50%, var(--green-accent) 100%);
+            overflow: hidden;
+        }
+
+        .hero-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(197, 225, 165, 0.5), rgba(200, 220, 130, 0.15));
+            animation: float-up linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .hero-logo {
+            width: 420px;
+            max-width: 90vw;
+            margin-bottom: 30px;
+            animation: logo-appear 1.2s ease-out;
+            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.2));
+        }
+
+        @keyframes logo-appear {
+            0% {
+                opacity: 0;
+                transform: scale(0.6) translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            color: var(--white);
+            margin-bottom: 15px;
+            animation: fade-up 1s ease-out 0.3s both;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            animation: fade-up 1s ease-out 0.5s both;
+        }
+
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fade-up 1s ease-out 0.7s both;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--green-dark);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--white);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--white);
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section {
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--green-bg);
+            color: var(--green-dark);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--green-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== SERVICES ===== */
+        .services {
+            background: var(--green-bg);
+            position: relative;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--green-accent), var(--green-pale));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(27, 94, 32, 0.12);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--green-bg), var(--green-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--green-dark);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            color: var(--white);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            color: var(--green-dark);
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery {
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto;
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.9);
+            cursor: pointer;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+
+        .gallery-item .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(27, 94, 32, 0.8));
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-item.tall {
+                grid-row: span 1;
+            }
+        }
+
+        /* ===== WHY US ===== */
+        .why-us {
+            background: var(--white);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .why-card {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .why-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .why-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--green-accent);
+            margin-bottom: 10px;
+        }
+
+        .why-card h3 {
+            font-size: 1.1rem;
+            color: var(--green-dark);
+            margin-bottom: 8px;
+        }
+
+        .why-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ===== PROCESS ===== */
+        .process {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process .section-tag {
+            background: rgba(255,255,255,0.15);
+            color: var(--white);
+        }
+
+        .process .section-header h2 {
+            color: var(--white);
+        }
+
+        .process .section-header p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 0 0 200px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .process-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .process-step:hover .step-circle {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--green-pale);
+            transform: scale(1.1);
+        }
+
+        .step-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green-pale);
+            margin-bottom: 8px;
+        }
+
+        .process-step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            background: var(--green-bg);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .contact-info.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--green-dark);
+            margin-bottom: 15px;
+        }
+
+        .contact-info > p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .contact-item-icon {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .contact-item-text h4 {
+            font-size: 1rem;
+            color: var(--green-dark);
+            margin-bottom: 3px;
+        }
+
+        .contact-item-text p,
+        .contact-item-text a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item-text a:hover {
+            color: var(--green-accent);
+        }
+
+        .contact-form {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(27, 94, 32, 0.08);
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .contact-form.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--green-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green-accent);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.25);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--green-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand img {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: brightness(10);
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        .footer h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--green-accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--green-pale);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--green-accent);
+            transform: translateY(-3px);
+        }
+
+        /* ===== WHATSAPP FLOAT ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            text-decoration: none;
+            box-shadow: 0 5px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse-wa 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 35px rgba(37, 211, 102, 0.5);
+        }
+
+        @keyframes pulse-wa {
+            0%, 100% { box-shadow: 0 5px 25px rgba(37, 211, 102, 0.4); }
+            50% { box-shadow: 0 5px 25px rgba(37, 211, 102, 0.7), 0 0 0 15px rgba(37, 211, 102, 0.1); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 350px;
+                height: 100vh;
+                background: var(--green-dark);
+                flex-direction: column;
+                justify-content: center;
+                padding: 40px;
+                transition: right 0.4s ease;
+                box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-logo {
+                width: 300px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .process-steps {
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-logo {
+                width: 260px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .service-card,
+        .why-card,
+        .process-step,
+        .contact-info,
+        .contact-form {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Spinning wash animation */
+        @keyframes spin-wash {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .wash-spinner {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: rgba(255,255,255,0.1);
+            animation: spin-wash 8s linear infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="logo.jpg" alt="Ezi Wash Logo">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#process">How It Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="tel:0784321804" class="nav-cta">Call Now</a></li>
+            </ul>
+            <div class="burger" id="burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-bubbles" id="heroBubbles"></div>
+        <div class="hero-content">
+            <img src="logo.jpg" alt="Ezi Wash Laundry & Dry Cleaning" class="hero-logo">
+            <h1>Fresh Clothes, Zero Hassle</h1>
+            <p>Professional laundry, dry cleaning, and tailoring services — because life's too short to spend it on laundry.</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn-primary">Our Services</a>
+                <a href="#contact" class="btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What We Offer</span>
+                <h2>Our Services</h2>
+                <p>From delicate dry cleaning to everyday wash & fold — we handle it all with care.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-tshirt"></i></div>
+                    <h3>Dry Cleaning</h3>
+                    <p>Expert dry cleaning for your suits, dresses, and delicate fabrics. Professionally treated and returned fresh.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
+                    <h3>Wet Cleaning</h3>
+                    <p>Eco-friendly wet cleaning that's gentle on fabrics and the environment. A modern alternative to dry cleaning.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-soap"></i></div>
+                    <h3>Wash, Dry & Fold</h3>
+                    <p>Drop off your laundry and pick it up washed, dried, and neatly folded. Simple and convenient.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-iron"></i></div>
+                    <h3>Wash, Dry & Iron</h3>
+                    <p>Get your clothes washed, dried, and perfectly pressed — ready to wear straight out the bag.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-bed"></i></div>
+                    <h3>Blankets</h3>
+                    <p>Bulky blankets, duvets, and comforters cleaned and refreshed. We handle all sizes with care.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-window-maximize"></i></div>
+                    <h3>Curtains</h3>
+                    <p>Professional curtain cleaning that removes dust, allergens, and odours. We treat all fabric types.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Space</span>
+                <h2>Inside Ezi Wash</h2>
+                <p>Take a look at our professional facility and the quality results we deliver.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item tall">
+                    <img src="team.jpg" alt="Ezi Wash Team" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Our Team</h4>
+                        <p>Friendly, professional staff ready to help</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="shop.jpg" alt="Ezi Wash Store" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Our Store</h4>
+                        <p>Clean, welcoming environment</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="machines.jpg" alt="Professional Machines" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Pro Equipment</h4>
+                        <p>Industrial-grade machines for the best results</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="clothes.jpg" alt="Clean Clothes" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Expert Care</h4>
+                        <p>Every garment treated with precision</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="results.jpg" alt="Before and After" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Real Results</h4>
+                        <p>Mildew removed — good as new</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="workspace.jpg" alt="Ironing Station" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Workspace</h4>
+                        <p>Professional ironing and finishing stations</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="linens.jpg" alt="Fresh Linens" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Fresh Linens</h4>
+                        <p>Spotless towels and linens every time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us" id="why">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why Choose Us</span>
+                <h2>The Ezi Wash Difference</h2>
+                <p>We make laundry easy so you can focus on what matters most.</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-number">01</div>
+                    <h3>Expert Care</h3>
+                    <p>Trained professionals who treat every garment with the attention it deserves.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-number">02</div>
+                    <h3>Quick Turnaround</h3>
+                    <p>Fast service without compromising on quality. Same-day options available.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-number">03</div>
+                    <h3>Affordable Rates</h3>
+                    <p>Competitive pricing for premium laundry services. No hidden fees, ever.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-number">04</div>
+                    <h3>Eco-Friendly</h3>
+                    <p>We use environmentally conscious products and methods wherever possible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">How It Works</span>
+                <h2>3 Simple Steps</h2>
+                <p>Getting your laundry done has never been easier.</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-circle"><i class="fas fa-basket-shopping"></i></div>
+                    <div class="step-num">Step 01</div>
+                    <h3>Drop Off</h3>
+                    <p>Bring your items to our store or arrange a collection.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-circle"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    <div class="step-num">Step 02</div>
+                    <h3>We Clean</h3>
+                    <p>Our experts wash, clean, and care for your garments.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-circle"><i class="fas fa-bag-shopping"></i></div>
+                    <div class="step-num">Step 03</div>
+                    <h3>Pick Up</h3>
+                    <p>Collect your fresh, clean clothes — ready to wear.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Get In Touch</span>
+                <h2>Contact Us</h2>
+                <p>Ready for fresh, clean clothes? Reach out today.</p>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Let's Talk Laundry</h3>
+                    <p>Have questions about our services or need a quote? We're here to help. Give us a call, send an email, or fill out the form.</p>
+
+                    <div class="contact-item">
+                        <div class="contact-item-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-item-text">
+                            <h4>Phone</h4>
+                            <p><a href="tel:0784321804">078 432 1804</a></p>
+                            <p><a href="tel:0311000773">031 100 0773</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-item-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="contact-item-text">
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/27784321804" target="_blank">078 432 1804</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-item-text">
+                            <h4>Email</h4>
+                            <p><a href="mailto:zandienhle72@gmail.com">zandienhle72@gmail.com</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service</label>
+                        <select id="service" name="service">
+                            <option value="">Select a service</option>
+                            <option value="dry-cleaning">Dry Cleaning</option>
+                            <option value="wet-cleaning">Wet Cleaning</option>
+                            <option value="wash-dry-fold">Wash, Dry & Fold</option>
+                            <option value="wash-dry-iron">Wash, Dry & Iron</option>
+                            <option value="blankets">Blankets</option>
+                            <option value="curtains">Curtains</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your laundry needs..."></textarea>
+                    </div>
+                    <button type="submit" class="form-btn">Send Message <i class="fas fa-paper-plane" style="margin-left:8px"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="logo.jpg" alt="Ezi Wash">
+                    <p>Professional laundry, dry cleaning, and tailoring services. Making laundry easy since day one.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#process">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Dry Cleaning</a></li>
+                        <li><a href="#services">Wet Cleaning</a></li>
+                        <li><a href="#services">Wash, Dry & Fold</a></li>
+                        <li><a href="#services">Blankets & Curtains</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ezi Wash Laundry & Dry Cleaning. All rights reserved.</p>
+                <p>Website by <a href="#" style="color: var(--green-pale); text-decoration: none;">Keep Hosting</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/27784321804" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== BURGER MENU =====
+        const burger = document.getElementById('burger');
+        const navLinks = document.getElementById('navLinks');
+
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                burger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ===== BUBBLES =====
+        function createBubbles() {
+            const container = document.getElementById('heroBubbles');
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                const size = Math.random() * 80 + 20;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDuration = Math.random() * 8 + 6 + 's';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(bubble);
+            }
+        }
+        createBubbles();
+
+        // ===== SCROLL ANIMATIONS =====
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.dataset.delay || 0;
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card').forEach((card, i) => {
+            card.dataset.delay = i * 100;
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.gallery-item').forEach((item, i) => {
+            item.dataset.delay = i * 100;
+            observer.observe(item);
+        });
+
+        document.querySelectorAll('.why-card').forEach((card, i) => {
+            card.dataset.delay = i * 100;
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.process-step').forEach((step, i) => {
+            step.dataset.delay = i * 150;
+            observer.observe(step);
+        });
+
+        document.querySelectorAll('.contact-info, .contact-form').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== FORM SUBMIT =====
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+
+            const waMsg = `Hi Ezi Wash! I'm ${name}.%0a%0aService: ${service}%0aEmail: ${email}%0a%0a${message}`;
+            window.open(`https://wa.me/27784321804?text=${waMsg}`, '_blank');
+        });
+    </script>
+
+</body>
+</html>
