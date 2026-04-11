@@ -72,7 +72,30 @@
         .nav-logo img {
             height: 100px;
             transition: height 0.3s ease;
-            filter: brightness(1.8);
+        }
+
+        .nav-logo {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-logo .logo-text-overlay {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.7rem;
+            color: white;
+            white-space: nowrap;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+
+        .navbar.scrolled .nav-logo .logo-text-overlay {
+            font-size: 0.55rem;
+            bottom: 5px;
         }
 
         .navbar.scrolled .nav-logo img {
@@ -203,11 +226,33 @@
             padding: 0 20px;
         }
 
+        .hero-logo-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+            animation: logo-appear 1.2s ease-out;
+        }
+
+        .hero-logo-text {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.8rem;
+            color: white;
+            white-space: nowrap;
+            letter-spacing: 2px;
+            pointer-events: none;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
         .hero-logo {
             width: 550px;
             max-width: 90vw;
-            margin-bottom: 30px;
-            animation: logo-appear 1.2s ease-out;
+            margin-bottom: 0;
+            animation: none;
             filter: drop-shadow(0 10px 40px rgba(0,0,0,0.2));
         }
 
@@ -1071,6 +1116,7 @@
         <div class="nav-container">
             <a href="#" class="nav-logo">
                 <img src="LOGO.png" alt="Ezi Wash Logo">
+                <span class="logo-text-overlay">Laundry & Tailoring</span>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home">Home</a></li>
@@ -1091,7 +1137,10 @@
     <section class="hero" id="home">
         <div class="hero-bubbles" id="heroBubbles"></div>
         <div class="hero-content">
-            <img src="LOGO.png" alt="Ezi Wash Laundry & Dry Cleaning" class="hero-logo">
+            <div class="hero-logo-wrap">
+                <img src="LOGO.png" alt="Ezi Wash Laundry & Dry Cleaning" class="hero-logo">
+                <span class="hero-logo-text">Laundry & Tailoring</span>
+            </div>
             <h1>Fresh Clothes, Zero Hassle</h1>
             <p>Professional laundry, dry cleaning, and tailoring services — because life's too short to spend it on laundry.</p>
             <div class="hero-btns">
