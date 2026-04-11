@@ -50,14 +50,15 @@
             z-index: 1000;
             padding: 15px 0;
             transition: all 0.4s ease;
-            background: transparent;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
         }
 
         .navbar.scrolled {
-            background: rgba(58, 125, 30, 0.95);
+            background: white;
             backdrop-filter: blur(12px);
             padding: 10px 0;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .nav-container {
@@ -72,7 +73,6 @@
         .nav-logo img {
             height: 100px;
             transition: height 0.3s ease;
-            filter: brightness(0) invert(1);
         }
 
         .nav-logo {
@@ -112,7 +112,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--white);
+            color: var(--green-dark);
             font-weight: 500;
             font-size: 0.95rem;
             position: relative;
@@ -126,7 +126,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--green-pale);
+            background: var(--green-accent);
             transition: width 0.3s ease;
         }
 
@@ -135,8 +135,8 @@
         }
 
         .nav-cta {
-            background: var(--white) !important;
-            color: var(--green-dark) !important;
+            background: var(--green-dark) !important;
+            color: var(--white) !important;
             padding: 10px 25px;
             border-radius: 50px;
             font-weight: 600 !important;
@@ -144,7 +144,7 @@
         }
 
         .nav-cta:hover {
-            background: var(--green-pale) !important;
+            background: var(--green-accent) !important;
             transform: scale(1.05);
         }
 
@@ -159,7 +159,7 @@
         .burger span {
             width: 28px;
             height: 3px;
-            background: var(--white);
+            background: var(--green-dark);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
